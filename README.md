@@ -297,9 +297,34 @@ function Ball:update()
 end
 ```
 
-Rebuild the game. You should see the ball bouncing back and forth again, but this time it's hitting an invisible wall instead of checking the screen width. Neat!
+Rebuild the game and...
 
-This function is a little more complicated than some of the others, so let's break it down:
+Whoops. There's an error in the console:
+
+```
+moveWithCollisions() can only be called on a sprite with a valid collide rect (this sprite's collide rect is (0.0, 0.0, 0.0, 0.0))
+```
+
+It looks like our ball doesn't know how to collide with anything else.
+
+The default for most games and sprites is using a rectangular collision shape, the "collide rect" from that error message. You may need to experiment with other shapes in future games - many engines also support circle/capsule shapes natively as well - but for now a square is good enough.
+
+The good news is that our sprite already has a size from `setImage`, so we just need to tell it to make its collide rect the same size:
+
+```lua {5}
+function Ball:init()
+  -- etc
+
+  self:setImage(ballImage)
+  self:setCollideRect(0, 0, self:getSize())
+
+  self:moveTo(200, 120)
+end
+```
+
+Rebuild the game again. You should see the ball bouncing back and forth again, but this time it's hitting an invisible wall instead of checking the screen width. Neat!
+
+Our new `update()` function is a little more complicated than before, so let's break it down:
 
 1. First, we `moveWithCollisions()` by the `xSpeed`
 2. Next, we iterate over the list of collisions
@@ -361,3 +386,28 @@ end
 ```
 
 Rebuild the game again. Your ball should now be bouncing off of all 4 walls, easy peasy.
+
+### Tidying up
+
+Before we move on - there are a lot of "magic numbers" in our code at this point. Our right wall starts at 400 pixels. Vertical walls are 240 pixels tall. And so on.
+
+But really what we're doing is starting the wall at the right edge of the screen, and making sure it's the same height as the screen. Let's replace those magic numbers with some well-named variables.
+
+```lua
+screenWidth = playdate.display.getWidth()
+screenHeight = playdate.display.getHeight()
+
+leftWall = gfx.sprite.addEmptyCollisionSprite(-5, 0, 5, screenHeight)
+leftWall:add()
+
+rightWall = gfx.sprite.addEmptyCollisionSprite(screenWidth, 0, 5, screenHeight)
+rightWall:add()
+
+topWall = gfx.sprite.addEmptyCollisionSprite(0, -5, screenWidth, 5)
+topWall:add()
+
+bottomWall = gfx.sprite.addEmptyCollisionSprite(0, screenHeight, screenWidth, 5)
+bottomWall:add()
+```
+
+You could also change `self:moveTo(200, 120)` to `self:moveTo(screenWidth / 2, screenHeight / 2)` if you are so inclined, but you might want to randomize the starting position later anyway.

@@ -4,6 +4,9 @@ import "CoreLibs/sprites"
 
 gfx = playdate.graphics
 
+screenWidth = playdate.display.getWidth()
+screenHeight = playdate.display.getHeight()
+
 class("Ball").extends(gfx.sprite)
 
 function Ball:init()
@@ -40,16 +43,16 @@ end
 ball = Ball()
 ball:add()
 
-leftWall = gfx.sprite.addEmptyCollisionSprite(-5, 0, 5, 240)
+leftWall = gfx.sprite.addEmptyCollisionSprite(-5, 0, 5, screenHeight)
 leftWall:add()
 
-rightWall = gfx.sprite.addEmptyCollisionSprite(400, 0, 5, 240)
+rightWall = gfx.sprite.addEmptyCollisionSprite(screenWidth, 0, 5, screenHeight)
 rightWall:add()
 
-topWall = gfx.sprite.addEmptyCollisionSprite(0, -5, 400, 5)
+topWall = gfx.sprite.addEmptyCollisionSprite(0, -5, screenWidth, 5)
 topWall:add()
 
-bottomWall = gfx.sprite.addEmptyCollisionSprite(0, 240, 400, 5)
+bottomWall = gfx.sprite.addEmptyCollisionSprite(0, screenHeight, screenWidth, 5)
 bottomWall:add()
 
 function playdate.update()
