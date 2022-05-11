@@ -17,22 +17,31 @@ function Ball:init()
   gfx.fillCircleAtPoint(radius, radius, radius)
   gfx.popContext()
   self:setImage(ballImage)
+  self:setCollideRect(0, 0, self:getSize())
 
   self:moveTo(200, 120)
 end
 
 function Ball:update()
-  if self.x + self.xSpeed >= 400 then
-    self.xSpeed *= -1
-  elseif self.x + self.xSpeed <= 0 then
-    self.xSpeed *= -1
+  local _, _, collisions, _ = self:moveWithCollisions(self.x + self.xSpeed, self.y)
+
+  for i = 1, #collisions do
+    print(collisions[i].normal)
+    if collisions[i].normal.x ~= 0 then
+      self.xSpeed *= -1
+    end
   end
-  
-  self:moveBy(self.xSpeed, 0)
 end
 
 ball = Ball()
 ball:add()
+
+leftWall = gfx.sprite.addEmptyCollisionSprite(-5, 0, 5, 240)
+leftWall:add()
+
+-- right wall is the same, but starts at the right edge
+rightWall = gfx.sprite.addEmptyCollisionSprite(400, 0, 5, 240)
+rightWall:add()
 
 function playdate.update()
   gfx.sprite.update()

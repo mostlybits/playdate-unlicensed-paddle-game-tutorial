@@ -133,7 +133,7 @@ A couple things to note before we get too far:
 
    In this case, we don't want to define `ballImage` as a global since nothing outside the sprite constructor should need to access it, so we define it as `local` to limit its scope.
 
-## Tidying up
+### Tidying up
 
 I don't know about you, but I get tired of typing `playdate.graphics` over and over. Let's create a shortcut since we're going to be using that a lot:
 
@@ -229,3 +229,82 @@ end
 ```
 
 Rebuild the game. You should see the ball moving back and forth between the right and left edges of the screen.
+
+## Making the ball bounce left and right
+
+We made the ball move left and right by turning it around if the next move was going to take it off of the screen. But we can do a little better than that while also setting ourselves up for adding paddles.
+
+Sprites in Lua have built-in collision detection using a method called `moveWithCollisions()`. If a sprite moves into another sprite, it will generate a "collision normal" that tells us which direction we should bounce the current sprite.
+
+The "normal" part of "collision normal" means that it is "normalized" into a unit vector, i.e. it should always have a length of 1 unit. So if something collides and should bounce down and right, it will have a collision normal of `(√2/2, √2/2)`. Using the Pythagorean theorem, the length of this vector would be 1.
+
+Here's the overall approach we're going to take here:
+
+1. Add invisible sprites for the left and right walls
+2. Use `moveWithCollisions` on our ball
+3. If it collided with the left or right wall, invert the speed
+
+This might be overkill for now, but it will allow us to add the top and bottom walls more easily. And many of the concepts from this section will be used to make the ball bounce off of the paddle, score points, and so on.
+
+Let's add our walls to start:
+
+```lua
+ball = Ball()
+ball:add()
+
+-- addEmptyCollisionSprite takes 4 arguments - x, y, width, height
+-- We start our wall at (-5, 0), then make it 5 pixels wide and 
+-- 240 pixels tall (the height of the playdate screen)
+--
+-- We make it 5 pixels wide just in case our ball is moving
+-- quickly enough to slip past the wall. You might need to make
+-- it even wider for a very fast ball.
+leftWall = gfx.sprite.addEmptyCollisionSprite(-5, 0, 5, 240)
+leftWall:add()
+
+-- right wall is the same, but starts at the right edge
+rightWall = gfx.sprite.addEmptyCollisionSprite(400, 0, 5, 240)
+rightWall:add()
+```
+
+Now let's use those walls in the update function instead of checking the screen boundaries:
+
+```lua
+function Ball:update()
+  -- returns actualX, actualY, a list of collisions, and the
+  -- length of the set of collisions
+  --
+  -- actualX and actualY represent where the sprite ended up
+  -- after the collisions were applied and it was moved outside
+  -- the bounds of any sprites it collided with. But for now
+  -- we only care if it needs to bounce or not. :)
+  --
+  -- We're only going to use the list of collisions right now,
+  -- so the convention in Lua is to use _ for unused variables
+  local _, _, collisions, _ = self:moveWithCollisions(self.x + self.xSpeed, 0)
+
+  -- In Lua, #collection gives you the length of the object,
+  -- similar to collection.length in other languages
+  for i = 1, #collisions do
+    -- just for testing purposes
+    print(collisions[i].normal)
+    -- if the ball should bounce horizontally, then invert
+    -- its xSpeed
+    if collisions[i].normal.x ~= 0 then
+      self.xSpeed *= -1
+    end
+  end
+end
+```
+
+Rebuild the game. You should see the ball bouncing back and forth again, but this time it's hitting an invisible wall instead of checking the screen width. Neat!
+
+This function is a little more complicated than some of the others, so let's break it down:
+
+1. First, we `moveWithCollisions()` by the `xSpeed`
+2. Next, we iterate over the list of collisions
+3. If any of those collisions tried to push the ball in a horizontal direction (`normal.x`), that means we hit the left or right wall and need to move in the other direction.
+
+If you check the console logs, you'll notice that all of our collision normals are `(1.0, 0.0)` or `(-1.0, 0.0)`. This is because collision normals are perpendicular to the surface being struck to represent that the force is pushing away from the surface. In our case, when the ball strikes the right wall it gets pushed left, so the collision normal is `(-1.0, 0.0)`. When the ball strikes the left wall it gets pushed right, so the collision normal is `(1.0, 0.0)`.
+
+We won't need to do anything more complicated with collision normals for this game, but it's good to know a little bit about how they work!
