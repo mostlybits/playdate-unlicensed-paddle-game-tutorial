@@ -8,7 +8,7 @@ Basic Pong Tutorial - Outline
 - Disclaimers
   - New to Lua - please correct anything that is wrong
   - Trying out an OO-based approach that Playdate supports, may not scale to more performance-heavy games
-  - Not using images
+- Not using images
 - Setup
 - Drawing the ball
 - Making it move
@@ -125,9 +125,13 @@ end
 
 If you re-run the build script, you should now see a ball drawn near the center of the screen. 🎉
 
-One thing to note - we defined `ballImage` as a `local` variable. Variables in Lua are global by default, which makes them accessible across all files in a project. This can be handy in some cases - for example, maybe our paddle AI will want to take the ball's position into account. But there are usually better ways to organize code without using globals. I won't cover that in-depth in this tutorial, but might do a follow-up around using events to decouple components.
+A couple things to note before we get too far:
 
-In this case, we don't want to define `ballImage` as a global since nothing outside the sprite constructor should need to access it, so we define it as `local` to limit its scope.
+1. In most graphics programming, `(0,0)` represents the top-left of the screen. So drawing our ball at `(200, 120)` means "draw 200 pixels from the left, 120 pixels from the top."
+
+2. We defined `ballImage` as a `local` variable. Variables in Lua are global by default, which makes them accessible across all files in a project. This can be handy in some cases - for example, maybe our paddle AI will want to take the ball's position into account. But there are usually better ways to organize code without using globals. I won't cover that in-depth in this tutorial, but might do a follow-up around using events to decouple components.
+
+   In this case, we don't want to define `ballImage` as a global since nothing outside the sprite constructor should need to access it, so we define it as `local` to limit its scope.
 
 ## Tidying up
 
@@ -160,3 +164,68 @@ end
 ```
 
 Normally I'm a fan of expressive variable names, but `gfx` is such a core concept here that I'm okay abbreviating it.
+
+## Making the ball move
+
+When table tennis was invented in 1847, players just sat the ball perfectly still in the middle of the table. If the ball rolled off your side of the table, it exposed your low moral character and you were summarily executed.
+
+A few years later, they decided to add a rule where you were allowed to hit the ball back and forth. It was so much fun they forgot all about the executions.
+
+Let's make our ball move before we get executed.
+
+To start, we'll have it move right forever. Any sprite that has been registered with `add()` will have its `update()` method called by `gfx.sprite.update()`. So let's add an `update()` function to our `Ball` class:
+
+```lua {1-4}
+function Ball:update()
+  -- move 1 pixel right, 0 pixels down
+  self:moveBy(1, 0)
+end
+```
+
+Rebuild the game and you should see your ball slowly slide off the right side of your screen into oblivion.
+
+We don't have a great way to make the ball turn around yet. We want to have it move right until it gets to the edge, then turn around and go left until it gets to the edge, and so on. We need more than just the ball's position to make this happen - we also need its speed.
+
+Let's change our `init()` function to store an `xSpeed`, then use that value to move the ball:
+
+```lua {4,10}
+function Ball:init()
+  Ball.super.init(self)
+
+  self.xSpeed = 1
+
+  -- etc
+end
+
+function Ball:update()
+  self:moveBy(self.xSpeed, 0)
+end
+```
+
+Rebuild the game again and your ball should still be drifting off into space. Try changing to `self.xSpeed = 5` and watch it drift more quickly. Cool.
+
+Now that we have a speed, we can make the ball turn around when it gets to the edge and go the other direction. Let's try it:
+
+```lua {5,12-16}
+function Ball:init()
+  Ball.super.init(self)
+
+  -- 1 is too slow :)
+  self.xSpeed = 5
+
+  -- etc
+end
+
+function Ball:update()
+  -- screen width = 400
+  if self.x + self.xSpeed >= 400 then
+    self.xSpeed *= -1
+  elseif self.x + self.xSpeed <= 0 then
+    self.xSpeed *= -1
+  end
+
+  self:moveBy(self.xSpeed, 0)
+end
+```
+
+Rebuild the game. You should see the ball moving back and forth between the right and left edges of the screen.
