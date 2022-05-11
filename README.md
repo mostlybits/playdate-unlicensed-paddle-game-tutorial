@@ -308,3 +308,56 @@ This function is a little more complicated than some of the others, so let's bre
 If you check the console logs, you'll notice that all of our collision normals are `(1.0, 0.0)` or `(-1.0, 0.0)`. This is because collision normals are perpendicular to the surface being struck to represent that the force is pushing away from the surface. In our case, when the ball strikes the right wall it gets pushed left, so the collision normal is `(-1.0, 0.0)`. When the ball strikes the left wall it gets pushed right, so the collision normal is `(1.0, 0.0)`.
 
 We won't need to do anything more complicated with collision normals for this game, but it's good to know a little bit about how they work!
+
+## Making the ball bounce up and down
+
+Now we're going to get really wild - let's make the ball move in 2 dimensions instead of just 1.
+
+We're going to use the same general approach as last time:
+
+1. Add top and bottom walls
+2. Add a `ySpeed` to the ball
+3. Move the ball in both `x` and `y` directions on update
+4. Handle collisions for both `x` and `y`
+
+First, let's add the walls:
+
+```lua
+rightWall = gfx.sprite.addEmptyCollisionSprite(400, 0, 5, 240)
+rightWall:add()
+
+topWall = gfx.sprite.addEmptyCollisionSprite(0, -5, 400, 5)
+topWall:add()
+
+bottomWall = gfx.sprite.addEmptyCollisionSprite(0, 240, 400, 5)
+bottomWall:add()
+```
+
+Next, let's add our `ySpeed` and use it:
+
+```lua
+function Ball:init()
+  Ball.super.init(self)
+
+  self.xSpeed = 5
+  self.ySpeed = 6
+
+  -- etc
+end
+
+function Ball:update()
+  local _, _, collisions, _ = self:moveWithCollisions(self.x + self.xSpeed, self.y + self.ySpeed)
+
+  for i = 1, #collisions do
+    if collisions[i].normal.x ~= 0 then
+      self.xSpeed *= -1
+    end
+
+    if collisions[i].normal.y ~= 0 then
+      self.ySpeed *= -1
+    end
+  end
+end
+```
+
+Rebuild the game again. Your ball should now be bouncing off of all 4 walls, easy peasy.
