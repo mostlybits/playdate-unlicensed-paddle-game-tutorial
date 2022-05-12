@@ -45,8 +45,45 @@ function Ball:update()
   end
 end
 
+class("Paddle").extends(gfx.sprite)
+
+function Paddle:init()
+  -- remember to do this so the parent sprite constructor
+  -- can get its bits wired up
+  Paddle.super.init(self)
+
+  self.ySpeed = 5
+  
+  width = 8
+  height = 50
+  local paddleImage = gfx.image.new(width, height)
+  gfx.pushContext(paddleImage)
+  -- (x, y, width, height, corner rounding)
+  -- note that we fill at (0,0) rather than (self.x, self.y)
+  -- since we are in a new draw context thanks to pushContext
+  gfx.fillRoundRect(0, 0, width, height, 2)
+  gfx.popContext()
+  self:setImage(paddleImage)
+  self:setCollideRect(0, 0, self:getSize())
+
+  self:moveTo(10, screenHeight / 2)
+end
+
+function Paddle:update()
+  if playdate.buttonIsPressed(playdate.kButtonDown) then
+    self:moveBy(0, self.ySpeed)
+  end
+
+  if playdate.buttonIsPressed(playdate.kButtonUp) then
+    self:moveBy(0, -self.ySpeed)
+  end
+end
+
 ball = Ball()
 ball:add()
+
+paddle = Paddle()
+paddle:add()
 
 leftWall = gfx.sprite.addEmptyCollisionSprite(-5, 0, 5, screenHeight)
 leftWall:add()
