@@ -7,6 +7,9 @@ gfx = playdate.graphics
 screenWidth = playdate.display.getWidth()
 screenHeight = playdate.display.getHeight()
 
+bounceSound = playdate.sound.synth.new(playdate.sound.kWaveSine)
+bounceSound:setADSR(0.1, 0.1, 0.1, 0)
+
 class("Ball").extends(gfx.sprite)
 
 function Ball:init()
@@ -31,10 +34,12 @@ function Ball:update()
 
   for i = 1, #collisions do
     if collisions[i].normal.x ~= 0 then
+      bounceSound:playNote("G4", 1, 0.2)
       self.xSpeed *= -1
     end
 
     if collisions[i].normal.y ~= 0 then
+      bounceSound:playNote("G4", 1, 0.2)
       self.ySpeed *= -1
     end
   end

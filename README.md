@@ -411,3 +411,57 @@ bottomWall:add()
 ```
 
 You could also change `self:moveTo(200, 120)` to `self:moveTo(screenWidth / 2, screenHeight / 2)` if you are so inclined, but you might want to randomize the starting position later anyway.
+
+## Adding bleeps and bloops
+
+If a tree falls in the forest and no one is around to hear it, does it make a sound?
+
+If a ball bounces off a wall and it doesn't make a sound, is it even a game?
+
+Playdate allows you play back pre-recorded sounds or make simple generated sounds using something called "ADSR":
+
+**Attack** - how fast to go from 0 -> full volume
+**Decay** - how fast to go from full volume -> sustain volume
+**Sustain** - the volume to hold at until the sound ends
+**Release** - how quickly to go from sustain volume -> 0
+
+Here's an image from Wikipedia to help visualize:
+
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/ADSR_parameter.svg/2560px-ADSR_parameter.svg.png)
+
+We're not going to go deep on this (partially because I'm still learning these things too), but hopefully that's enough to follow along for the rest of the section. At the end of the section, I'll explain how you can use the Playdate Pulp editor to experiment with your own sounds.
+
+For now, our goal is just to play a sound whenever the ball bounces. First, we'll create a new synth instance:
+
+```lua
+bounceSound = playdate.sound.synth.new(playdate.sound.kWaveSine)
+bounceSound:setADSR(0.1, 0.1, 0.1, 0)
+```
+
+Next, we need to actually play this sound on the bounce:
+
+```lua
+function Ball:update()
+  local _, _, collisions, _ = self:moveWithCollisions(self.x + self.xSpeed, self.y + self.ySpeed)
+
+  for i = 1, #collisions do
+    if collisions[i].normal.x ~= 0 then
+      -- playNote(pitch, volume, length)
+      -- Only pitch is required. Volume defaults to 1, length
+      -- defaults to "until you turn it off" :)
+      --
+      -- Pitch can either be in Hz or the name of a note,
+      -- where 440Hz = A4 (the standard orchestral tuning note).
+      bounceSound:playNote("G4", 1, 1)
+      self.xSpeed *= -1
+    end
+
+    if collisions[i].normal.y ~= 0 then
+      bounceSound:playNote("G4", 1, 1)
+      self.ySpeed *= -1
+    end
+  end
+end
+```
+
+There are many different kinds of waveforms we can use here - triangle, square, sawtooth, sine, and more. Each one has a different sound, so feel free to play with the waveforms, ADSR, and notes until you find a sound you like. The sound I picked has a softer, spacier feel, but a sawtooth wave with a shorter attack would sound much sharper.
