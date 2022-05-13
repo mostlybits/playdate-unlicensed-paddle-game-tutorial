@@ -556,3 +556,35 @@ end
 ```
 
 Rebuild the game and try moving your paddle around. You should see that it no longer moves off of the top and the bottom of the screen. This is because it is colliding with our invisible walls, the same way that the ball does.
+
+In case you run into any issues with this approach, here's how you might tackle (2):
+
+```lua
+-- NOTE: not necessary to make this change, just showing
+-- how you could go about it
+function Paddle:update()
+  if playdate.buttonIsPressed(playdate.kButtonDown) then
+    -- when moving down, check if the bottom of the paddle
+    -- would move off of the bottom of the screen when
+    -- applying the speed
+    --
+    -- height = 50 and self.y = middle of the paddle
+    if self.y + 25 + self.ySpeed < screenHeight then
+      self:moveBy(0, self.ySpeed)
+    end
+  end
+
+  if playdate.buttonIsPressed(playdate.kButtonUp) then
+    -- when moving up, check if the top of the paddle
+    -- would move off of the top of the screen when
+    -- applying the speed
+    --
+    -- height = 50 and self.y = middle of the paddle
+    if self.y - 25 - self.ySpeed > 0 then
+      self:moveBy(0, -self.ySpeed)
+    end
+  end
+end
+```
+
+Feel free to use this route if you prefer it, although I would recommend changing `height = 50` to `self.height = 50` in the paddle constructor and then using `self.height / 2` instead of the magic number 25 here. :)
