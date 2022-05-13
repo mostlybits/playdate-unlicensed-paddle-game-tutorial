@@ -664,3 +664,54 @@ end
 ```
 
 Rebuild the game and you should see `0 : 0` at the top-center of the screen.
+
+## Keeping score
+
+Right now, the ball bounces off of all four walls. We want to keep this behavior for the top and bottom walls, but change it for the left and right walls. If the ball hits the left wall, the right player should score, and vice versa.
+
+Also, whenever we score a point, we should play a sound and reset the ball to the center.
+
+As usual, the Playdate SDK is going to help us out a bit here. When sprites collide, we get some information about the `other` sprite we collided with. We can also use a function called `setTag()` on a sprite, then access it later with `getTag()` to figure out what sprite we collided with.
+
+`setTag()` takes an integer, so let's make named constants and then tag our left and right walls with them:
+
+```lua
+kLeftWallTag = 1
+kRightWallTag = 2
+
+leftWall = gfx.sprite.addEmptyCollisionSprite(-5, 0, 5, screenHeight)
+leftWall:setTag(kLeftWallTag)
+leftWall:add()
+
+rightWall = gfx.sprite.addEmptyCollisionSprite(screenWidth, 0, 5, screenHeight)
+rightWall:setTag(kRightWallTag)
+rightWall:add()
+```
+
+Next, let's update our collision detection to see if the ball collided with one of these objects:
+
+```lua
+function Ball:update()
+  local _, _, collisions, _ = self:moveWithCollisions(self.x + self.xSpeed, self.y + self.ySpeed)
+
+  for i = 1, #collisions do
+    if collisions[i].other:getTag() == kLeftWallTag then
+      rightScore += 1
+    elseif collisions[i].other:getTag() == kRightWallTag then
+      leftScore += 1
+    end
+
+    if collisions[i].normal.x ~= 0 then
+      bounceSound:playNote("G4", 1, 0.2)
+      self.xSpeed *= -1
+    end
+
+    if collisions[i].normal.y ~= 0 then
+      bounceSound:playNote("G4", 1, 0.2)
+      self.ySpeed *= -1
+    end
+  end
+end
+```
+
+Rebuild the game. You should see the scores tick up whenever the left and right walls are hit. More progress!

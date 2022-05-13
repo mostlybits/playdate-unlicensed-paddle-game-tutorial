@@ -13,6 +13,9 @@ bounceSound:setADSR(0.1, 0.1, 0.1, 0)
 leftScore = 0
 rightScore = 0
 
+kLeftWallTag = 1
+kRightWallTag = 2
+
 class("Ball").extends(gfx.sprite)
 
 function Ball:init()
@@ -36,6 +39,12 @@ function Ball:update()
   local _, _, collisions, _ = self:moveWithCollisions(self.x + self.xSpeed, self.y + self.ySpeed)
 
   for i = 1, #collisions do
+    if collisions[i].other:getTag() == kLeftWallTag then
+      rightScore += 1
+    elseif collisions[i].other:getTag() == kRightWallTag then
+      leftScore += 1
+    end
+
     if collisions[i].normal.x ~= 0 then
       bounceSound:playNote("G4", 1, 0.2)
       self.xSpeed *= -1
@@ -92,9 +101,11 @@ rightPaddle = Paddle(screenWidth - 10)
 rightPaddle:add()
 
 leftWall = gfx.sprite.addEmptyCollisionSprite(-5, 0, 5, screenHeight)
+leftWall:setTag(kLeftWallTag)
 leftWall:add()
 
 rightWall = gfx.sprite.addEmptyCollisionSprite(screenWidth, 0, 5, screenHeight)
+rightWall:setTag(kRightWallTag)
 rightWall:add()
 
 topWall = gfx.sprite.addEmptyCollisionSprite(0, -5, screenWidth, 5)
