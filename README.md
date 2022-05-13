@@ -466,7 +466,7 @@ end
 
 There are many different kinds of waveforms we can use here - triangle, square, sawtooth, sine, and more. Each one has a different sound, so feel free to play with the waveforms, ADSR, and notes until you find a sound you like. The sound I picked has a softer, spacier feel, but a sawtooth wave with a shorter attack would sound much sharper.
 
-## Adding paddles
+## Adding a paddle
 
 Watching the ball bounce is fun and all, but right now this is just a movie with no conflict. Let's add a paddle on the left to make things more interesting.
 
@@ -527,3 +527,32 @@ end
 ```
 
 Rebuild the game. You should be able to move your paddle up and down. [Pretty sweet sauce in there, eh Ace?](https://getyarn.io/yarn-clip/88044d50-e660-4605-b921-bf2a87b4d0b8)
+
+## Keeping the paddle on-screen
+
+Our paddle moves, but we have a problem - it can move right off of the screen, with no promise that it will ever return. Let's fix that.
+
+There are a couple ways we could approach this problem:
+
+1. Change to paddle to use `moveWithCollisions` like the ball
+2. Prevent the paddle from moving if it would move off-screen
+
+In the first prototype of this game I made, I tried (1) and ran into some quirky physics issues, but it seems like those may have been resolved. We will pursue (1), but know that (2) is a good backup option if you need it. Also if you are seeing unexpected behavior, you might look into [playdate.graphics.sprite:collisionResponse](https://sdk.play.date/1.11.0/Inside%20Playdate.html#c-graphics.sprite.collisionResponse) and try different types of collision responses.
+
+It looks like the default is `freeze`, which means that the sprite will stop moving if it collides with another sprite. That seems okay for our purposes. Even if the ball stops the paddle's movement temporarily, it should bounce away a frame later. We could consider changing the paddle's response later if needed.
+
+Let's update our paddle to `moveWithCollisions` instead of using `moveBy`:
+
+```lua
+function Paddle:update()
+  if playdate.buttonIsPressed(playdate.kButtonDown) then
+    self:moveWithCollisions(self.x, self.y + self.ySpeed)
+  end
+
+  if playdate.buttonIsPressed(playdate.kButtonUp) then
+    self:moveWithCollisions(self.x, self.y - self.ySpeed)
+  end
+end
+```
+
+Rebuild the game and try moving your paddle around. You should see that it no longer moves off of the top and the bottom of the screen. This is because it is colliding with our invisible walls, the same way that the ball does.

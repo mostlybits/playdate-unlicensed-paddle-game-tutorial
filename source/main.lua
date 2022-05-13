@@ -71,11 +71,11 @@ end
 
 function Paddle:update()
   if playdate.buttonIsPressed(playdate.kButtonDown) then
-    self:moveBy(0, self.ySpeed)
+    self:moveWithCollisions(self.x, self.y + self.ySpeed)
   end
 
   if playdate.buttonIsPressed(playdate.kButtonUp) then
-    self:moveBy(0, -self.ySpeed)
+    self:moveWithCollisions(self.x, self.y - self.ySpeed)
   end
 end
 
