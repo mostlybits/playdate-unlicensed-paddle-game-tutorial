@@ -629,3 +629,38 @@ rightPaddle:add()
 Rebuild the game. You should now see two paddles - one on the left and one on the right. And all it took was 2 lines of code. Classes are pretty sweet.
 
 You'll notice that both paddles move in unison - when you press up, they both move up; when you press down, they both move down. There are a few ways you could make this more interesting, such as having one paddle controlled by AI or by the crank, and so on. Those are outside the scope of this tutorial, but I'm happy to do a follow-up if that is interesting to folks.
+
+## Displaying a score
+
+Next up - let's keep score! Since you're controlling both paddles at the same time right now, you'll have to use your imagination a bit. The good news is that no matter what happens, you're still a winner, just like your parents always said.
+
+Before we actually track the score, let's start by displaying a score at the top of the screen. It will always be `0 : 0` for now, but we'll give ourselves the pieces we need to actually track in the next step.
+
+First, let's add some variables to track the score:
+
+```lua
+-- at the top of the file, before the ball class
+leftScore = 0
+rightScore = 0
+
+class("Ball").extends(gfx.sprite)
+```
+
+Then, let's draw the score at the top center of the screen:
+
+```lua
+function playdate.update()
+  gfx.sprite.update()
+  
+  -- drawTextAligned(text, x, y, alignment)
+  --
+  -- We want to draw at the top-center, so we do
+  -- x = screenWidth / 2, then move 5 pixels from the top
+  -- for a little buffer.
+  --
+  -- Note that .. is used for string concatenation in Lua
+  gfx.drawTextAligned(leftScore .. " : " .. rightScore, screenWidth / 2, 5, kTextAlignment.center)
+end
+```
+
+Rebuild the game and you should see `0 : 0` at the top-center of the screen.

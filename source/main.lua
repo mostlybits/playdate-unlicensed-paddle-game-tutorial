@@ -10,6 +10,9 @@ screenHeight = playdate.display.getHeight()
 bounceSound = playdate.sound.synth.new(playdate.sound.kWaveSine)
 bounceSound:setADSR(0.1, 0.1, 0.1, 0)
 
+leftScore = 0
+rightScore = 0
+
 class("Ball").extends(gfx.sprite)
 
 function Ball:init()
@@ -102,4 +105,6 @@ bottomWall:add()
 
 function playdate.update()
   gfx.sprite.update()
+  
+  gfx.drawTextAligned(leftScore .. " : " .. rightScore, screenWidth / 2, 5, kTextAlignment.center)
 end
