@@ -588,3 +588,44 @@ end
 ```
 
 Feel free to use this route if you prefer it, although I would recommend changing `height = 50` to `self.height = 50` in the paddle constructor and then using `self.height / 2` instead of the magic number 25 here. :)
+
+## Adding a second paddle
+
+Part of the goal of creating a paddle class was to make it easy to reuse the behavior. We should be able to add a second paddle pretty easily. The only thing we'll need to do it provide a mechanism for drawing the paddle at a different position on the screen so we don't end up with two directly overlapping paddles.
+
+There are a few ways we could tackle this as well:
+
+1. Pass `xPosition` as an argument to the constructor, i.e. `paddle = Paddle(10)`
+2. Pass `side` as an argument to the constructor, i.e. `paddle = Paddle("left")` or `paddle = Paddle("right")`
+   - We could also make this constants so we don't have to pass a string, but we can deal with that later
+
+For this tutorial, I'll go with (1) since it's a little simpler, but feel free to explore something like (2) if you would like.
+
+Let's update the `Paddle` constructor to accept and use an `xPosition` argument:
+
+```lua
+function Paddle:init(xPosition)
+  -- etc
+
+  self:moveTo(xPosition, screenHeight / 2)
+end
+
+paddle = Paddle(10)
+paddle:add()
+```
+
+Rebuild the game. Everything should look the same - that's good! This was a pure refactor, where we made code more extensible without changing any behavior. But this sets us up for easily adding a second paddle.
+
+Let's rename our existing paddle to `leftPaddle` and then add a new `rightPaddle`:
+
+```lua
+leftPaddle = Paddle(10)
+leftPaddle:add()
+
+rightPaddle = Paddle(screenWidth - 10)
+rightPaddle:add()
+```
+
+Rebuild the game. You should now see two paddles - one on the left and one on the right. And all it took was 2 lines of code. Classes are pretty sweet.
+
+You'll notice that both paddles move in unison - when you press up, they both move up; when you press down, they both move down. There are a few ways you could make this more interesting, such as having one paddle controlled by AI or by the crank, and so on. Those are outside the scope of this tutorial, but I'm happy to do a follow-up if that is interesting to folks.

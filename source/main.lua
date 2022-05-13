@@ -47,7 +47,7 @@ end
 
 class("Paddle").extends(gfx.sprite)
 
-function Paddle:init()
+function Paddle:init(xPosition)
   -- remember to do this so the parent sprite constructor
   -- can get its bits wired up
   Paddle.super.init(self)
@@ -66,7 +66,7 @@ function Paddle:init()
   self:setImage(paddleImage)
   self:setCollideRect(0, 0, self:getSize())
 
-  self:moveTo(10, screenHeight / 2)
+  self:moveTo(xPosition, screenHeight / 2)
 end
 
 function Paddle:update()
@@ -82,8 +82,11 @@ end
 ball = Ball()
 ball:add()
 
-paddle = Paddle()
-paddle:add()
+leftPaddle = Paddle(10)
+leftPaddle:add()
+
+rightPaddle = Paddle(screenWidth - 10)
+rightPaddle:add()
 
 leftWall = gfx.sprite.addEmptyCollisionSprite(-5, 0, 5, screenHeight)
 leftWall:add()
