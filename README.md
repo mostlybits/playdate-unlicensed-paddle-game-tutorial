@@ -806,3 +806,79 @@ end
 Rebuild your game and try it out. You should now see the ball reset and hear a different sound whenever a point is scored.
 
 There's more you could do here if you wanted - playing a "success" sound when the left paddle scores and a "fail" sound when the right paddle scores, reversing the ball direction on each point, and so on. Feel free to try those out!
+
+### Winning the game
+
+Right now, the game continues forever. Even if you walk away until the heat death of the universe, left paddle and right paddle will continue battling for supremacy (assuming that your Playdate is plugged in and the electrical grid has survived that long).
+
+Instead, let's play to 5. You've got a busy life and things to do.
+
+We're going to divide our `playdate.update()` function into two parts:
+
+1. If the game has been won, print a message to the players and accept an input to restart
+2. If the game has not been won, show the score and do the normal game loop
+
+NOTE: This is probably the part of the tutorial that I'm most uncertain about at the moment. This definitely works, but it feels clumsy. Let me know if you have ideas for improving this, possibly using something like `playdate.wait()` or `playdate.stop()`.
+
+Let's start by showing some "Game Over" text:
+
+```lua
+function isGameOver()
+  local winningScore = 5
+  return leftScore >= winningScore or rightScore >= winningScore
+end
+
+function playdate.update()
+  if isGameOver() then
+    gfx.drawTextAligned("Good game, pal!", screenWidth / 2, screenHeight / 2, kTextAlignment.center)
+  else
+    gfx.sprite.update()
+    
+    gfx.drawTextAligned(leftScore .. " : " .. rightScore, screenWidth / 2, 5, kTextAlignment.center)
+  end
+end
+```
+
+I made a little helper function called `isGameOver()`. This makes it a little easier to test - I could `return true`, set `winningScore` to 1, and so on. There could also be other game-ending conditions in the future.
+
+Play a game to 5 (or set it to 1 for testing) and you should see that the ball stops moving and our game over message appears. The ball stops moving because we're inside the `if` branch now, so `gfx.sprite.update()` never gets called. We'll fix that momentarily.
+
+## Restarting the game
+
+Right now, you'll see the game over screen forever. Even if you walk away until the heat death of the universe...oh, we did that bit already. Let's keep moving then.
+
+When we're in that `if` branch, the game loop is still running once per frame, but we're not telling it how to handle any inputs. Let's do two things to get our players unstuck:
+
+1. Tell them they can press the Ⓐ button to restart
+2. Actually restart the game when they press it
+
+We'll do those both at once:
+
+```lua
+function playdate.update()
+  if isGameOver() then
+    gfx.drawTextAligned("Good game, pal!", screenWidth / 2, screenHeight / 2 - 25, kTextAlignment.center)
+    gfx.drawTextAligned("Press Ⓐ to play again", screenWidth / 2, screenHeight / 2, kTextAlignment.center)
+    
+    if playdate.buttonIsPressed(playdate.kButtonA) then
+      -- this causes isGameOver() to start returning false again
+      leftScore = 0
+      rightScore = 0
+    end
+  else
+    gfx.sprite.update()
+    
+    gfx.drawTextAligned(leftScore .. " : " .. rightScore, screenWidth / 2, 5, kTextAlignment.center)
+  end
+end
+```
+
+Rebuild the game. You should see the new instructions, and pressing Ⓐ should restart the game successfully.
+
+Note that the `25` in `screenHeight / 2 - 25` really is a bit of a magic number. I wanted to draw it on the screen without it overlapping the ball once the ball is reset to the middle. There are other ways you could handle this, such as:
+
+- Not moving the ball back to the center on the final point
+- Calling `ball:remove()` when the game ends and adding it back in with `ball:add()` on a restart
+- Calling `playdate.clear()` at the beginning of the `if` branch to clear the screen of all sprites before drawing the text
+
+These are all viable choices depending on the game over aesthetic you are going for, but I wanted to keep it simple for now.

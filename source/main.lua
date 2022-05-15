@@ -123,8 +123,23 @@ topWall:add()
 bottomWall = gfx.sprite.addEmptyCollisionSprite(0, screenHeight, screenWidth, 5)
 bottomWall:add()
 
+function isGameOver()
+  local winningScore = 5
+  return leftScore >= winningScore or rightScore >= winningScore
+end
+
 function playdate.update()
-  gfx.sprite.update()
-  
-  gfx.drawTextAligned(leftScore .. " : " .. rightScore, screenWidth / 2, 5, kTextAlignment.center)
+  if isGameOver() then
+    gfx.drawTextAligned("Good game, pal!", screenWidth / 2, screenHeight / 2 - 25, kTextAlignment.center)
+    gfx.drawTextAligned("Press Ⓐ to play again", screenWidth / 2, screenHeight / 2, kTextAlignment.center)
+    
+    if playdate.buttonIsPressed(playdate.kButtonA) then
+      leftScore = 0
+      rightScore = 0
+    end
+  else
+    gfx.sprite.update()
+    
+    gfx.drawTextAligned(leftScore .. " : " .. rightScore, screenWidth / 2, 5, kTextAlignment.center)
+  end
 end
