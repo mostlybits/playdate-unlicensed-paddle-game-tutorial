@@ -673,6 +673,14 @@ end
 
 Rebuild the game and you should see `0 : 0` at the top-center of the screen.
 
+### A note on fonts
+
+Curiously, the default Playdate font, Asheville, is not intended to be used as the primary UI font. Here's a note from [Designing for Playdate](https://sdk.play.date/1.11.0/Designing%20for%20Playdate.html#_system_font):
+
+>If our text-drawing APIs aren’t given a font to use, or when they fail to load a font or a character, they will default to the font Asheville 14. This font is specifically meant to communicate to you that something has gone wrong with your text-draw. You should replace Asheville with another font for better legibility.
+
+We're going to keep moving for this tutorial, but you might want to spend more time experimenting with fonts once you complete the tutorial or on your first real game.
+
 ## Keeping score
 
 Right now, the ball bounces off of all four walls. We want to keep this behavior for the top and bottom walls, but change it for the left and right walls. If the ball hits the left wall, the right player should score, and vice versa.
