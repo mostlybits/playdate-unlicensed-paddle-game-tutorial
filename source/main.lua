@@ -10,6 +10,9 @@ screenHeight = playdate.display.getHeight()
 bounceSound = playdate.sound.synth.new(playdate.sound.kWaveSine)
 bounceSound:setADSR(0.1, 0.1, 0.1, 0)
 
+pointSound = playdate.sound.synth.new(playdate.sound.kWaveSine)
+pointSound:setADSR(0.25, 0.25, 0.1, 0)
+
 leftScore = 0
 rightScore = 0
 
@@ -41,8 +44,14 @@ function Ball:update()
   for i = 1, #collisions do
     if collisions[i].other:getTag() == kLeftWallTag then
       rightScore += 1
+      self:moveTo(screenWidth / 2, screenHeight / 2)
+      pointSound:playNote("C5", 1, 0.5)
+      return
     elseif collisions[i].other:getTag() == kRightWallTag then
       leftScore += 1
+      self:moveTo(screenWidth / 2, screenHeight / 2)
+      pointSound:playNote("C5", 1, 0.5)
+      return
     end
 
     if collisions[i].normal.x ~= 0 then

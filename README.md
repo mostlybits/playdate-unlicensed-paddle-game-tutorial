@@ -466,6 +466,14 @@ end
 
 There are many different kinds of waveforms we can use here - triangle, square, sawtooth, sine, and more. Each one has a different sound, so feel free to play with the waveforms, ADSR, and notes until you find a sound you like. The sound I picked has a softer, spacier feel, but a sawtooth wave with a shorter attack would sound much sharper.
 
+If you want to play with your own sounds, the [Playdate Pulp](https://play.date/pulp/) editor has a "Sound" section that makes it easy to try things out. You'll need to create an account and login if you don't have one, then click on "Sound" and you should see an editor that looks like this:
+
+<!-- SCREENSHOT HERE -->
+
+The grid in the middle controls the tone, volume, and duration, i.e. the `playNote("G4", 1, 1)` line from above. On the right of the editor, you will see the values from `setADSR` - attack, decay, sustain, and release - and the different types of waves (sine, square, sawtooth, triangle, noise). You can press spacebar to play the sound.
+
+Try adding a note and tweaking it until you find something you like.
+
 ## Adding a paddle
 
 Watching the ball bounce is fun and all, but right now this is just a movie with no conflict. Let's add a paddle on the left to make things more interesting.
@@ -669,8 +677,6 @@ Rebuild the game and you should see `0 : 0` at the top-center of the screen.
 
 Right now, the ball bounces off of all four walls. We want to keep this behavior for the top and bottom walls, but change it for the left and right walls. If the ball hits the left wall, the right player should score, and vice versa.
 
-Also, whenever we score a point, we should play a sound and reset the ball to the center.
-
 As usual, the Playdate SDK is going to help us out a bit here. When sprites collide, we get some information about the `other` sprite we collided with. We can also use a function called `setTag()` on a sprite, then access it later with `getTag()` to figure out what sprite we collided with.
 
 `setTag()` takes an integer, so let's make named constants and then tag our left and right walls with them:
@@ -715,3 +721,80 @@ end
 ```
 
 Rebuild the game. You should see the scores tick up whenever the left and right walls are hit. More progress!
+
+## Acknowledging the point
+
+We're tracking points now, but the game just keeps going as if nothing happened. To make things more interesting, we want to reset the ball to the center and play a sound when we score.
+
+Resetting the ball should be pretty easy. When we add a point, let's just set the position back to its starting point at the center of the screen:
+
+```lua
+function Ball:update()
+  local _, _, collisions, _ = self:moveWithCollisions(self.x + self.xSpeed, self.y + self.ySpeed)
+
+  for i = 1, #collisions do
+    if collisions[i].other:getTag() == kLeftWallTag then
+      rightScore += 1
+      -- FYI: You can update the code in init() to this
+      -- instead of self:moveTo(200, 120) if you want
+      self:moveTo(screenWidth / 2, screenHeight / 2)
+      return
+    elseif collisions[i].other:getTag() == kRightWallTag then
+      leftScore += 1
+      self:moveTo(screenWidth / 2, screenHeight / 2)
+      return
+    end
+    
+    if collisions[i].normal.x ~= 0 then
+      bounceSound:playNote("G4", 1, 0.2)
+      self.xSpeed *= -1
+    end
+
+    if collisions[i].normal.y ~= 0 then
+      bounceSound:playNote("G4", 1, 0.2)
+      self.ySpeed *= -1
+    end
+  end
+end
+```
+
+We also `return` after applying the move since we don't want to apply the other collision effects like playing the bounce sound or changing directions right now. (You could make it change directions if you want, though!)
+
+Now it's time to play a sound. We'll continue with the same soundscape for our point sound (`kSineWave`), but make it a little longer since it happens less frequently. We'll also change the tone - since our original note was a `G4`, let's use `C5` for a nice resolution:
+
+```lua
+pointSound = playdate.sound.synth.new(playdate.sound.kWaveSine)
+pointSound:setADSR(0.25, 0.25, 0.1, 0)
+
+function Ball:update()
+  local _, _, collisions, _ = self:moveWithCollisions(self.x + self.xSpeed, self.y + self.ySpeed)
+
+  for i = 1, #collisions do
+    if collisions[i].other:getTag() == kLeftWallTag then
+      rightScore += 1
+      pointSound:playNote("C5", 1, 0.5)
+      self:moveTo(screenWidth / 2, screenHeight / 2)
+      return
+    elseif collisions[i].other:getTag() == kRightWallTag then
+      leftScore += 1
+      pointSound:playNote("C5", 1, 0.5)
+      self:moveTo(screenWidth / 2, screenHeight / 2)
+      return
+    end
+    
+    if collisions[i].normal.x ~= 0 then
+      bounceSound:playNote("G4", 1, 0.2)
+      self.xSpeed *= -1
+    end
+
+    if collisions[i].normal.y ~= 0 then
+      bounceSound:playNote("G4", 1, 0.2)
+      self.ySpeed *= -1
+    end
+  end
+end
+```
+
+Rebuild your game and try it out. You should now see the ball reset and hear a different sound whenever a point is scored.
+
+There's more you could do here if you wanted - playing a "success" sound when the left paddle scores and a "fail" sound when the right paddle scores, reversing the ball direction on each point, and so on. Feel free to try those out!
