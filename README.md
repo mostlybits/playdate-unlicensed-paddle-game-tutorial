@@ -42,7 +42,7 @@ open $build_target
 
 (I assume this would work for Linux as well, but I have not tested.)
 
-This script will use the `pdc` Playdate compiler (and subtle nod to Panic's Portland roots) to build any code in the `source` folder, starting with `main.lua` into a target called `unlicensed-paddle-game.pdx`. It will then `open` that target in the simulator, which runs your game.
+This script will use the `pdc` Playdate compiler to build any code in the `source` folder, starting with `main.lua` into a target called `unlicensed-paddle-game.pdx`. (PDX is a subtle nod to [Panic's Portland roots](https://en.wikipedia.org/wiki/Portland_International_Airport).) It will then `open` that target in the simulator, which runs your game.
 
 You'll also want to create a folder called `source` with one file in it, `main.lua`.
 
