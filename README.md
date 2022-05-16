@@ -882,3 +882,32 @@ Note that the `25` in `screenHeight / 2 - 25` really is a bit of a magic number.
 - Calling `playdate.clear()` at the beginning of the `if` branch to clear the screen of all sprites before drawing the text
 
 These are all viable choices depending on the game over aesthetic you are going for, but I wanted to keep it simple for now.
+
+## Wrapping Up / Next Steps
+
+This tutorial was a quick, whirlwind intro to making your first Playdate game. We covered a lot of ground - controls, movement, drawing, text, sound effects, collisions, game logic, and more. But there's still plenty more to learn when it comes to making more complex Playdate games.
+
+Here are some other resources we recommend to learn more about making your own Playdate game:
+
+- [Inside Playdate](https://sdk.play.date/)
+- [Designing for Playdate](https://sdk.play.date/1.11.0/Designing%20for%20Playdate.html)
+- [SquidGodDev's tutorial series](https://www.youtube.com/playlist?list=PLlMPQvEA0GZPp0HQmVadgqgK_Vepxf5H0)
+- [Playdate Squad Discord](https://discord.com/invite/zFKagQ2) (unofficial, but some Panic folks hang out in there)
+
+We've been making our own Unlicensed Paddle Game for Playdate, and here are some of the other things we've been diving into:
+
+- Start / menu screens
+- Fonts
+- Performance tuning
+- AI
+- Music
+- Using events to communicate between objects
+- Deeper object-oriented patterns, such as dependency injection and a basic entity component system
+- Deploying to device
+- Distributing on Itch.io
+
+If you are interested in any of these topics or other game-development related topics, here's how to get in touch:
+
+- Message us on Twitter at [@mostlybits](https://twitter.com/mostlybits)
+- Sign up for our [weekly newsletter](http://newsletter.mostlybits.co/) where we share interesting finds and fun projects from science, music, games, and more
+- Follow us on [Itch.io](https://mostlybits.itch.io/) to stay in the loop on our upcoming games
