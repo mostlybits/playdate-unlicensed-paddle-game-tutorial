@@ -910,7 +910,7 @@ We've been making our own Unlicensed Paddle Game for Playdate, and here are some
 - AI
 - Music
 - Using events to communicate between objects
-- Deeper object-oriented patterns, such as dependency injection and a basic entity component system
+- Deeper object-oriented patterns, such as dependency injection, a basic entity component system, and just fewer global variables :)
 - Deploying to device
 - Distributing on Itch.io
 
