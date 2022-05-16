@@ -39,15 +39,64 @@ Future ideas
 
 ----
 
+## Welcome!
+
+The goal of this tutorial is to give you a quick intro to building your first Playdate game. We're going to build an Unlicensed Paddle Game that is legally distinct from Atari's Pong™. (Please don't sue.) By the end, we'll have covered topics like:
+
+- Rendering sprites
+- Ball physics
+- Controlling a paddle
+- Scoring points and winning the game
+
+We'll also touch on some interesting aspects of Lua and adopt an object-oriented style of programming supported by the Playdate SDK.
+
+I'm Kyle Shipley, one half of [Mostly Bits](https://mostlybits.co), along with my partner Tony Dewan. We made an iOS word game in 2021 called [Tiler More](https://mostlybits.co/tilermore) that my mom loved and a lot of other people seemed to love too. I got my Playdate last week and am super excited to build some fun games for it.
+
+I wanted to start with something simple to learn the tools, so I decided to make an Unlicensed Paddle Game with some cool new features. Since there's not a ton of tutorials around Playdate development yet, we thought it would be fun to write this little tutorial based on what we've learned on our own game so far.
+
+This tutorial is aimed at folks with at least a bit of programming experience, and maybe even passing familiarity with object-oriented programming in a language like C#, Java, Python, Ruby, JavaScript, etc. If you are looking for something that involves a bit less programming, you might check out [this tutorial](https://devforum.play.date/t/pulp-pong-dev-tutorial/2315/1) for making Pong in the Playdate Pulp game editor.
+
+One final disclaimer before we dive in - I'm brand new to Lua, although I've made a few small games before. If you spot anything in this tutorial that doesn't quite make sense, please [message me on Twitter](https://twitter.com/mostlybits) and I'll update the tutorial.
+
 ## Setup
 
-By the end:
-- Playdate SDK installed (delegating to someone else's instructions here)
-- Simple build script
-- main.lua file with empty update function and basic imports
+Before we get started, you'll want to make sure you have the Playdate SDK installed for your operating system. Installation and setup is outside the scope of this tutorial, but here are a few resources to help you get started:
 
+- [Playdate SDK download](https://play.date/dev/)
+- [Compiling Instructions](https://sdk.play.date/1.11.0/Inside%20Playdate.html#_compiling_a_project)
+- [SquidGodDev - VSCode + Windows setup](https://www.youtube.com/watch?v=J0ufxinp7No)
 
-## Drawing the ball
+I mostly develop on MacOS, and I have been using a simple 3-line build script for most of my projects so far. Here's how to use that:
+
+1. Create a file in your project directory called `build.sh`
+2. Run `chmod +x build.sh` to make it executable
+3. Add the following code:
+
+```sh
+#!/usr/bin/env bash
+
+build_target="unlicensed-paddle-game.pdx"
+
+pdc "source" $build_target
+open $build_target
+```
+
+(I assume this would work for Linux as well, but I have not tested.)
+
+This script will use the `pdc` Playdate compiler (and subtle nod to Panic's Portland roots) to build any code in the `source` folder, starting with `main.lua` into a target called `unlicensed-paddle-game.pdx`. It will then `open` that target in the simulator, which runs your game.
+
+You'll also want to create a folder called `source` with one file in it, `main.lua`.
+
+At the end of this section, you should have a project that looks like this:
+
+```
+/your-folder-name
+  build.sh
+  /source
+    main.lua
+```
+
+## Drawing a ball
 
 Now that you can see a blank screen in the simulator, let's make things a bit more interesting with our first sprite. We'll start with the ball.
 
