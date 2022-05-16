@@ -815,7 +815,7 @@ Rebuild your game and try it out. You should now see the ball reset and hear a d
 
 There's more you could do here if you wanted - playing a "success" sound when the left paddle scores and a "fail" sound when the right paddle scores, reversing the ball direction on each point, and so on. Feel free to try those out!
 
-### Winning the game
+## Winning the game
 
 Right now, the game continues forever. Even if you walk away until the heat death of the universe, left paddle and right paddle will continue battling for supremacy (assuming that your Playdate is plugged in and the electrical grid has survived that long).
 
