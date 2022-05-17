@@ -98,6 +98,11 @@ function Paddle:update()
   if playdate.buttonIsPressed(playdate.kButtonUp) then
     self:moveWithCollisions(self.x, self.y - self.ySpeed)
   end
+  
+  local crankChange, _ = playdate.getCrankChange()
+  if crankChange ~= 0 then
+    self:moveWithCollisions(self.x, self.y + crankChange)
+  end
 end
 
 ball = Ball()

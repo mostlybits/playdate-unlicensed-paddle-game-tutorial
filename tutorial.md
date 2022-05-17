@@ -294,6 +294,9 @@ function Ball:update()
     print(collisions[i].normal)
     -- if the ball should bounce horizontally, then invert
     -- its xSpeed
+    --
+    -- also ~= is "not equals" in Lua, similar to != in
+    -- most other languages 
     if collisions[i].normal.x ~= 0 then
       self.xSpeed *= -1
     end
@@ -600,6 +603,44 @@ end
 ```
 
 Feel free to use this route if you prefer it, although I would recommend changing `height = 50` to `self.height = 50` in the paddle constructor and then using `self.height / 2` instead of the magic number 25 here. :)
+
+## Adding crank controls
+
+Panic went to a lot of trouble to include a crank in the Playdate, and here we are, completely ignoring it, like the hundreds or thousands of hours of engineering effort mean nothing to us.
+
+Let's get our crank on.
+
+The Playdate SDK includes a couple different ways to measure crank inputs:
+
+1. `playdate.getCrankPosition()` - report the absolute position of the crank in degrees from 0 (straight up) to 360 based on clockwise rotation
+2. `playdate.getCrankChange()` - report the angle of change in degrees since the last tick
+
+Either one could work for us. If we use `getCrankPosition()`, we'll need to map from 0-180 degrees to a y position. If we use `getCrankChange()`, we can just move the paddle up or down depending on the angle of change.
+
+`getCrankChange()` seems like it will be a tiny bit simpler for this game, so we'll go that direction.
+
+Let's modify our `Paddle:update()` function so that it handles crank changes in addition to up and down on the d-pad:
+
+```lua
+function Paddle:update()
+  if playdate.buttonIsPressed(playdate.kButtonDown) then
+    self:moveWithCollisions(self.x, self.y + self.ySpeed)
+  end
+
+  if playdate.buttonIsPressed(playdate.kButtonUp) then
+    self:moveWithCollisions(self.x, self.y - self.ySpeed)
+  end
+
+  -- returns [change, acceleratedChange], where acceleratedChange
+  -- has a multiplier if you are turning the crank really quickly
+  local crankChange, _ = playdate.getCrankChange()
+  if crankChange ~= 0 then
+    self:moveWithCollisions(self.x, self.y + crankChange)
+  end
+end
+```
+
+Rebuild the game. You should be able to control the paddles using the crank wheel in the simulator.
 
 ## Adding a second paddle
 
