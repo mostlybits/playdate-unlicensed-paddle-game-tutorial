@@ -2,7 +2,7 @@
 
 In this repo you'll find a tutorial for building your first [Playdate](https://play.date/) game. In it we make a game that is completely legally distinct from Atari's Pong™ that we call Unlicensed Paddle Game (please don't sue us.)
 
-1. [tutorial.md](tutorial.md) is the tutorial
+1. [tutorial/index.md](tutorial/index.md) is the tutorial
 2. [source/main.lua](source/main.lua) is the complete final code
 3. [build.sh](build.sh) is a small build script that will build the code in main.lua and launch the Playdate simulator. Note that it requires the [Playdate SDK](https://play.date/dev/).
 
