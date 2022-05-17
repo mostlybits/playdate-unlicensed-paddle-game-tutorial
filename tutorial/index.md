@@ -21,7 +21,7 @@ Before we get started, you'll want to make sure you have the Playdate SDK instal
 - [Compiling Instructions](https://sdk.play.date/1.11.0/Inside%20Playdate.html#_compiling_a_project)
 - [SquidGodDev - VSCode + Windows setup](https://www.youtube.com/watch?v=J0ufxinp7No)
 
-You'll use the SDK to build your game and the included Playdate simulator to open it. Since we'll be doing that a lot in this tutorial, lets speed up the process with a little build script. Here's how to make one:
+You'll use the SDK to build your game and the included Playdate simulator to open it. Since we'll be doing that a lot in this tutorial, let's speed up the process with a little build script. Here's how to make one:
 
 1. Create a file in your project directory called `build.sh`
 2. Run `chmod +x build.sh` to make it executable
