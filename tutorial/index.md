@@ -21,7 +21,7 @@ Before we get started, you'll want to make sure you have the Playdate SDK instal
 - [Compiling Instructions](https://sdk.play.date/1.11.0/Inside%20Playdate.html#_compiling_a_project)
 - [SquidGodDev - VSCode + Windows setup](https://www.youtube.com/watch?v=J0ufxinp7No)
 
-I mostly develop on MacOS, and I have been using a simple 3-line build script for most of my projects so far. Here's how to use that:
+You'll use the SDK to build your game and the included Playdate simulator to open it. Since we'll be doing that a lot in this tutorial, let's speed up the process with a little build script. Here's how to make one:
 
 1. Create a file in your project directory called `build.sh`
 2. Run `chmod +x build.sh` to make it executable
@@ -36,11 +36,16 @@ pdc "source" $build_target
 open $build_target
 ```
 
-(I assume this would work for Linux as well, but I have not tested.)
+Note: This script assumes macOS or Linux. This step is completely optional, so if you're on Windows and not prepared to make your own version, feel free to skip it!
 
-This script will use the `pdc` Playdate compiler to build any code in the `source` folder, starting with `main.lua` into a target called `unlicensed-paddle-game.pdx`. (PDX is a subtle nod to [Panic's Portland roots](https://en.wikipedia.org/wiki/Portland_International_Airport).) It will then `open` that target in the simulator, which runs your game.
+The script uses the `pdc` Playdate compiler to build any code in the `source` folder (starting with `main.lua`) into a target called `unlicensed-paddle-game.pdx`. (PDX is a subtle nod to [Panic's Portland roots](https://en.wikipedia.org/wiki/Portland_International_Airport).) It will then `open` that target in the simulator, which runs your game.
 
-You'll also want to create a folder called `source` with one file in it, `main.lua`.
+You'll also want to create a folder called `source` with one file in it, `main.lua`:
+
+```sh
+mkdir source
+touch source/main.lua
+```
 
 At the end of this section, you should have a project that looks like this:
 
