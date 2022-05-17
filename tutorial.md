@@ -572,7 +572,8 @@ end
 
 Rebuild the game and try moving your paddle around. You should see that it no longer moves off of the top and the bottom of the screen. This is because it is colliding with our invisible walls, the same way that the ball does.
 
-In case you run into any issues with this approach, here's how you might tackle (2):
+<details>
+<summary>If you run into issues with this approach, click here to see how you might tackle (2).</summary>
 
 ```lua
 -- NOTE: not necessary to make this change, just showing
@@ -603,7 +604,8 @@ end
 ```
 
 Feel free to use this route if you prefer it, although I would recommend changing `height = 50` to `self.height = 50` in the paddle constructor and then using `self.height / 2` instead of the magic number 25 here. :)
-
+</details>
+  
 ## Adding crank controls
 
 Panic went to a lot of trouble to include a crank in the Playdate, and here we are, completely ignoring it, like the hundreds or thousands of hours of engineering effort mean nothing to us.
