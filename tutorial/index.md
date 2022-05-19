@@ -478,7 +478,9 @@ Playdate allows you to play back pre-recorded sounds or make simple generated so
 
 Here's an image from Wikipedia to help visualize:
 
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/ADSR_parameter.svg/2560px-ADSR_parameter.svg.png)
+<p align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/ADSR_parameter.svg/2560px-ADSR_parameter.svg.png" width="600" alt="graph of ADSR">
+</p>
 
 We're not going to go deep on this (partially because I'm still learning these things too), but hopefully that's enough to follow along for the rest of the section. At the end of the section, I'll explain how you can use the Playdate Pulp editor to experiment with your own sounds.
 
