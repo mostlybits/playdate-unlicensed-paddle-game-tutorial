@@ -519,6 +519,8 @@ end
 
 Rebuild your game and try out the sounds!
 
+https://user-images.githubusercontent.com/115918/169334836-e7a0af9c-eba3-40f3-89cc-cee6dfcf774b.mp4
+
 There are many different kinds of waveforms we can use here - triangle, square, sawtooth, sine, and more. Each one has a different sound, so feel free to play with the waveforms, ADSR, and notes until you find a sound you like. The sound I picked has a softer, spacier feel, but a sawtooth wave with a shorter attack would sound much sharper.
 
 If you want to play with your own sounds, the [Playdate Pulp](https://play.date/pulp/) editor has a "Sound" section that makes it easy to try things out. You'll need to create an account and login if you don't have one, then click on "Sound" and you should see an editor that looks like this:
@@ -881,7 +883,7 @@ end
 
 Rebuild your game and try it out. You should now see the ball reset and hear a different sound whenever a point is scored.
 
-<!-- VIDEO HERE -->
+https://user-images.githubusercontent.com/115918/169335522-fe7edf01-03a9-4537-930c-bb7b80038790.mp4
 
 There's more you could do here if you wanted - playing a "success" sound when the left paddle scores and a "fail" sound when the right paddle scores, reversing the ball direction on each point, and so on. Feel free to try those out!
 
@@ -967,7 +969,7 @@ These are all viable choices depending on the game over aesthetic you are going 
 
 ## Wrapping Up / Next Steps
 
-<!-- VIDEO HERE -->
+https://user-images.githubusercontent.com/115918/169336208-9d37e316-9ad9-4305-8350-02ebcbc2d3c8.mp4
 
 This tutorial was a quick, whirlwind intro to making your first Playdate game. We covered a lot of ground - controls, movement, drawing, text, sound effects, collisions, game logic, and more. But there's still plenty more to learn when it comes to making more complex Playdate games.
 
