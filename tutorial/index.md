@@ -499,6 +499,8 @@ function Ball:update()
 end
 ```
 
+Rebuild your game and try out the sounds!
+
 There are many different kinds of waveforms we can use here - triangle, square, sawtooth, sine, and more. Each one has a different sound, so feel free to play with the waveforms, ADSR, and notes until you find a sound you like. The sound I picked has a softer, spacier feel, but a sawtooth wave with a shorter attack would sound much sharper.
 
 If you want to play with your own sounds, the [Playdate Pulp](https://play.date/pulp/) editor has a "Sound" section that makes it easy to try things out. You'll need to create an account and login if you don't have one, then click on "Sound" and you should see an editor that looks like this:
