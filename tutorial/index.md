@@ -595,7 +595,7 @@ Rebuild the game and try moving your paddle around. You should see that it no lo
   
 ## Adding crank controls
 
-Panic went to a lot of trouble to include a crank in the Playdate, and here we are, completely ignoring it, like the hundreds or thousands of hours of engineering effort mean nothing to us.
+Panic went to a lot of trouble to include a crank in the Playdate, and here we are, completely ignoring it, like the thousands of hours of engineering effort mean nothing to us.
 
 Let's get our crank on.
 
