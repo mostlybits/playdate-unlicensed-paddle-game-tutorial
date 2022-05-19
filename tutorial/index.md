@@ -262,7 +262,7 @@ end
 
 Rebuild the game. You should see the ball moving back and forth between the right and left edges of the screen.
 
-## Making the ball bounce left and right
+## Making the ball bounce
 
 We made the ball move left and right by turning it around if the next move was going to take it off of the screen. But we can do a little better than that while also setting ourselves up for adding paddles.
 
@@ -313,7 +313,7 @@ function Ball:update()
   --
   -- We're only going to use the list of collisions right now,
   -- so the convention in Lua is to use _ for unused variables
-  local _, _, collisions, _ = self:moveWithCollisions(self.x + self.xSpeed, 0)
+  local _, _, collisions, _ = self:moveWithCollisions(self.x + self.xSpeed, self.y)
 
   -- In Lua, #collection gives you the length of the object,
   -- similar to collection.length in other languages
@@ -453,7 +453,7 @@ If a tree falls in the forest and no one is around to hear it, does it make a so
 
 If a ball bounces off a wall and it doesn't make a sound, is it even a game?
 
-Playdate allows you play back pre-recorded sounds or make simple generated sounds using something called "ADSR":
+Playdate allows you to play back pre-recorded sounds or make simple generated sounds using something called "ADSR":
 
 **Attack** - how fast to go from 0 -> full volume
 **Decay** - how fast to go from full volume -> sustain volume
@@ -499,6 +499,8 @@ function Ball:update()
 end
 ```
 
+Rebuild your game and try out the sounds!
+
 There are many different kinds of waveforms we can use here - triangle, square, sawtooth, sine, and more. Each one has a different sound, so feel free to play with the waveforms, ADSR, and notes until you find a sound you like. The sound I picked has a softer, spacier feel, but a sawtooth wave with a shorter attack would sound much sharper.
 
 If you want to play with your own sounds, the [Playdate Pulp](https://play.date/pulp/) editor has a "Sound" section that makes it easy to try things out. You'll need to create an account and login if you don't have one, then click on "Sound" and you should see an editor that looks like this:
@@ -541,7 +543,7 @@ function Paddle:init()
   gfx.fillRoundRect(0, 0, width, height, 2)
   gfx.popContext()
   self:setImage(paddleImage)
-  set:setCollideRect(0, 0, self:getSize())
+  self:setCollideRect(0, 0, self:getSize())
 
   -- 10 is arbitrary, but looks like a nice little buffer
   self:moveTo(10, screenHeight / 2 - height)
@@ -551,7 +553,7 @@ paddle = Paddle()
 paddle:add()
 ```
 
-Rebuild your game and you should see a paddle on the left side
+Rebuild your game and you should see a paddle on the left side.
 
 Also, bonus! The ball bounces off of the paddle correctly since they are both sprites and we get collisions for free. The ball also plays a bounce sound when it hits the paddle since we made that a property of the ball.
 
@@ -575,14 +577,7 @@ Rebuild the game. You should be able to move your paddle up and down. [Pretty sw
 
 Our paddle moves, but we have a problem - it can move right off of the screen, with no promise that it will ever return. Let's fix that.
 
-There are a couple ways we could approach this problem:
-
-1. Change to paddle to use `moveWithCollisions` like the ball
-2. Prevent the paddle from moving if it would move off-screen
-
-In the first prototype of this game I made, I tried (1) and ran into some quirky physics issues, but it seems like those may have been resolved. We will pursue (1), but know that (2) is a good backup option if you need it. Also if you are seeing unexpected behavior, you might look into [playdate.graphics.sprite:collisionResponse](https://sdk.play.date/1.11.0/Inside%20Playdate.html#c-graphics.sprite.collisionResponse) and try different types of collision responses.
-
-It looks like the default is `freeze`, which means that the sprite will stop moving if it collides with another sprite. That seems okay for our purposes. Even if the ball stops the paddle's movement temporarily, it should bounce away a frame later. We could consider changing the paddle's response later if needed.
+We could update the paddle to stop moving if it's about to move off-screen. That will work just fine here, but we're going to make it use `moveWithCollisions` instead. It's generally more extensible and applicable to more complicated games.
 
 Let's update our paddle to `moveWithCollisions` instead of using `moveBy`:
 
@@ -599,44 +594,10 @@ end
 ```
 
 Rebuild the game and try moving your paddle around. You should see that it no longer moves off of the top and the bottom of the screen. This is because it is colliding with our invisible walls, the same way that the ball does.
-
-<details>
-<summary>If you run into issues with this approach, click here to see how you might tackle (2).</summary>
-
-```lua
--- NOTE: not necessary to make this change, just showing
--- how you could go about it
-function Paddle:update()
-  if playdate.buttonIsPressed(playdate.kButtonDown) then
-    -- when moving down, check if the bottom of the paddle
-    -- would move off of the bottom of the screen when
-    -- applying the speed
-    --
-    -- height = 50 and self.y = middle of the paddle
-    if self.y + 25 + self.ySpeed < screenHeight then
-      self:moveBy(0, self.ySpeed)
-    end
-  end
-
-  if playdate.buttonIsPressed(playdate.kButtonUp) then
-    -- when moving up, check if the top of the paddle
-    -- would move off of the top of the screen when
-    -- applying the speed
-    --
-    -- height = 50 and self.y = middle of the paddle
-    if self.y - 25 - self.ySpeed > 0 then
-      self:moveBy(0, -self.ySpeed)
-    end
-  end
-end
-```
-
-Feel free to use this route if you prefer it, although I would recommend changing `height = 50` to `self.height = 50` in the paddle constructor and then using `self.height / 2` instead of the magic number 25 here. :)
-</details>
   
 ## Adding crank controls
 
-Panic went to a lot of trouble to include a crank in the Playdate, and here we are, completely ignoring it, like the hundreds or thousands of hours of engineering effort mean nothing to us.
+Panic went to a lot of trouble to include a crank in the Playdate, and here we are, completely ignoring it, like the thousands of hours of engineering effort mean nothing to us.
 
 Let's get our crank on.
 
@@ -676,11 +637,11 @@ Rebuild the game. You should be able to control the paddles using the crank whee
 
 Part of the goal of creating a paddle class was to make it easy to reuse the behavior. We should be able to add a second paddle pretty easily. The only thing we'll need to do it provide a mechanism for drawing the paddle at a different position on the screen so we don't end up with two directly overlapping paddles.
 
-There are a few ways we could tackle this as well:
+There are a few ways we could tackle this:
 
 1. Pass `xPosition` as an argument to the constructor, i.e. `paddle = Paddle(10)`
 2. Pass `side` as an argument to the constructor, i.e. `paddle = Paddle("left")` or `paddle = Paddle("right")`
-   - We could also make this constants so we don't have to pass a string, but we can deal with that later
+   - We could also make these constants so we don't have to pass a string, but we can deal with that later
 
 For this tutorial, I'll go with (1) since it's a little simpler, but feel free to explore something like (2) if you would like.
 
