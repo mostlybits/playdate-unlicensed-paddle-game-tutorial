@@ -47,7 +47,7 @@ mkdir source
 touch source/main.lua
 ```
 
-At the end of this section, you should have a project that looks like this:
+So far you should have a project that looks like this:
 
 ```
 /your-folder-name
@@ -56,15 +56,36 @@ At the end of this section, you should have a project that looks like this:
     main.lua
 ```
 
+Let's put something in `main.lua` and run our build script to make sure it all works. The minimum you need for a Playdate game to successfully build is the `playdate.update()` function, which is called right before every frame is rendered.
+
+Add this to `main.lua`:
+
+```lua
+function playdate.update()
+end
+```
+
+If you run the build script now, you'll get a blank screen in the simulator.
+
+<!-- SCREENSHOT HERE -->
+
+Let's make things a bit more interesting with our first sprite! We'll start with the ball.
+
+
 ## Drawing a ball
 
-Now that you can see a blank screen in the simulator, let's make things a bit more interesting with our first sprite. We'll start with the ball.
-
-As I mentioned in the intro, we're going to lean into the basic object-oriented programming (OOP) concepts offered by the Playdate SDK. These aren't strictly necessary and may have performance implications for larger games, but I find that they make code easier to reason about and extend.
+As mentioned in the intro, we're going to lean into the basic object-oriented programming (OOP) concepts offered by the Playdate SDK. These aren't strictly necessary and may have performance implications for larger games, but I find that they make code easier to reason about and extend.
 
 Let's go ahead and make a simple `Ball` class in `main.lua` above the `playdate.update` function:
 
 ```lua
+-- import the OOP tools provided by the playdate SDK
+import "CoreLibs/object"
+-- import the playdate graphics library so we can draw things
+import "CoreLibs/graphics"
+-- import the playdate sprites library
+import "CoreLibs/sprites"
+
 -- register a new global Lua class that inherits from sprite,
 -- which will allow it to move, collide with other sprites, etc
 class("Ball").extends(playdate.graphics.sprite)
@@ -83,6 +104,8 @@ ball = Ball()
 function playdate.update()
 end
 ```
+
+Note the `import`s in the first few lines. These 3 imports will be used in basically any Playdate game you make with Lua. (Although if you're not using the OOP tools provided by the SDK, you can skip the first one.)
 
 Run the build script. You should still see a blank screen, but if you open the console, you'll see "I am a ball" as expected.
 
