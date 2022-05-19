@@ -313,7 +313,7 @@ function Ball:update()
   --
   -- We're only going to use the list of collisions right now,
   -- so the convention in Lua is to use _ for unused variables
-  local _, _, collisions, _ = self:moveWithCollisions(self.x + self.xSpeed, 0)
+  local _, _, collisions, _ = self:moveWithCollisions(self.x + self.xSpeed, self.y)
 
   -- In Lua, #collection gives you the length of the object,
   -- similar to collection.length in other languages
