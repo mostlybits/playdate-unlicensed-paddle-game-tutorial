@@ -105,6 +105,8 @@ function playdate.update()
 end
 ```
 
+Note the `import`s in the first few lines. These 3 imports will be used in basically any Playdate game you make with Lua. (Although if you're not using the OOP tools provided by the SDK, you can skip the first one.)
+
 Run the build script. You should still see a blank screen, but if you open the console, you'll see "I am a ball" as expected.
 
 <!-- SCREENSHOT HERE -->
