@@ -575,14 +575,7 @@ Rebuild the game. You should be able to move your paddle up and down. [Pretty sw
 
 Our paddle moves, but we have a problem - it can move right off of the screen, with no promise that it will ever return. Let's fix that.
 
-There are a couple ways we could approach this problem:
-
-1. Change to paddle to use `moveWithCollisions` like the ball
-2. Prevent the paddle from moving if it would move off-screen
-
-In the first prototype of this game I made, I tried (1) and ran into some quirky physics issues, but it seems like those may have been resolved. We will pursue (1), but know that (2) is a good backup option if you need it. Also if you are seeing unexpected behavior, you might look into [playdate.graphics.sprite:collisionResponse](https://sdk.play.date/1.11.0/Inside%20Playdate.html#c-graphics.sprite.collisionResponse) and try different types of collision responses.
-
-It looks like the default is `freeze`, which means that the sprite will stop moving if it collides with another sprite. That seems okay for our purposes. Even if the ball stops the paddle's movement temporarily, it should bounce away a frame later. We could consider changing the paddle's response later if needed.
+We could update the paddle to stop moving if it's about to move off-screen. That will work just fine here, but we're going to make it use `moveWithCollisions` instead. It's generally more extensible and applicable to more complicated games.
 
 Let's update our paddle to `moveWithCollisions` instead of using `moveBy`:
 
@@ -599,40 +592,6 @@ end
 ```
 
 Rebuild the game and try moving your paddle around. You should see that it no longer moves off of the top and the bottom of the screen. This is because it is colliding with our invisible walls, the same way that the ball does.
-
-<details>
-<summary>If you run into issues with this approach, click here to see how you might tackle (2).</summary>
-
-```lua
--- NOTE: not necessary to make this change, just showing
--- how you could go about it
-function Paddle:update()
-  if playdate.buttonIsPressed(playdate.kButtonDown) then
-    -- when moving down, check if the bottom of the paddle
-    -- would move off of the bottom of the screen when
-    -- applying the speed
-    --
-    -- height = 50 and self.y = middle of the paddle
-    if self.y + 25 + self.ySpeed < screenHeight then
-      self:moveBy(0, self.ySpeed)
-    end
-  end
-
-  if playdate.buttonIsPressed(playdate.kButtonUp) then
-    -- when moving up, check if the top of the paddle
-    -- would move off of the top of the screen when
-    -- applying the speed
-    --
-    -- height = 50 and self.y = middle of the paddle
-    if self.y - 25 - self.ySpeed > 0 then
-      self:moveBy(0, -self.ySpeed)
-    end
-  end
-end
-```
-
-Feel free to use this route if you prefer it, although I would recommend changing `height = 50` to `self.height = 50` in the paddle constructor and then using `self.height / 2` instead of the magic number 25 here. :)
-</details>
   
 ## Adding crank controls
 
