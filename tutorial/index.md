@@ -262,7 +262,7 @@ end
 
 Rebuild the game. You should see the ball moving back and forth between the right and left edges of the screen.
 
-## Making the ball bounce left and right
+## Making the ball bounce
 
 We made the ball move left and right by turning it around if the next move was going to take it off of the screen. But we can do a little better than that while also setting ourselves up for adding paddles.
 
