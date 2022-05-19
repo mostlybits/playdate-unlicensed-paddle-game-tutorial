@@ -68,7 +68,7 @@ end
 If you run the build script now, you'll get a blank screen in the simulator.
 
 <p align="center">
-  <img src="assets/01_blank-simulator.png" alt="blank Playdate simulator">
+  <img src="assets/01_blank-simulator.png" alt="blank Playdate simulator" width="600">
 </p>
 
 Let's make things a bit more interesting with our first sprite! We'll start with the ball.
