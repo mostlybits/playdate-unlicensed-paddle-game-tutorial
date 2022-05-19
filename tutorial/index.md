@@ -453,7 +453,7 @@ If a tree falls in the forest and no one is around to hear it, does it make a so
 
 If a ball bounces off a wall and it doesn't make a sound, is it even a game?
 
-Playdate allows you play back pre-recorded sounds or make simple generated sounds using something called "ADSR":
+Playdate allows you to play back pre-recorded sounds or make simple generated sounds using something called "ADSR":
 
 **Attack** - how fast to go from 0 -> full volume
 **Decay** - how fast to go from full volume -> sustain volume
@@ -541,7 +541,7 @@ function Paddle:init()
   gfx.fillRoundRect(0, 0, width, height, 2)
   gfx.popContext()
   self:setImage(paddleImage)
-  set:setCollideRect(0, 0, self:getSize())
+  self:setCollideRect(0, 0, self:getSize())
 
   -- 10 is arbitrary, but looks like a nice little buffer
   self:moveTo(10, screenHeight / 2 - height)
@@ -551,7 +551,7 @@ paddle = Paddle()
 paddle:add()
 ```
 
-Rebuild your game and you should see a paddle on the left side
+Rebuild your game and you should see a paddle on the left side.
 
 Also, bonus! The ball bounces off of the paddle correctly since they are both sprites and we get collisions for free. The ball also plays a bounce sound when it hits the paddle since we made that a property of the ball.
 
@@ -676,11 +676,11 @@ Rebuild the game. You should be able to control the paddles using the crank whee
 
 Part of the goal of creating a paddle class was to make it easy to reuse the behavior. We should be able to add a second paddle pretty easily. The only thing we'll need to do it provide a mechanism for drawing the paddle at a different position on the screen so we don't end up with two directly overlapping paddles.
 
-There are a few ways we could tackle this as well:
+There are a few ways we could tackle this:
 
 1. Pass `xPosition` as an argument to the constructor, i.e. `paddle = Paddle(10)`
 2. Pass `side` as an argument to the constructor, i.e. `paddle = Paddle("left")` or `paddle = Paddle("right")`
-   - We could also make this constants so we don't have to pass a string, but we can deal with that later
+   - We could also make these constants so we don't have to pass a string, but we can deal with that later
 
 For this tutorial, I'll go with (1) since it's a little simpler, but feel free to explore something like (2) if you would like.
 
