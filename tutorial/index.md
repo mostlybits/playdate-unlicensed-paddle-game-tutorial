@@ -67,7 +67,9 @@ end
 
 If you run the build script now, you'll get a blank screen in the simulator.
 
-![blank Playdate simulator](assets/01_blank-simulator.png)
+<p align="center">
+  <img src="assets/01_blank-simulator.png" alt="blank Playdate simulator">
+</p>
 
 Let's make things a bit more interesting with our first sprite! We'll start with the ball.
 
@@ -109,7 +111,9 @@ Note the `import`s in the first few lines. These 3 imports will be used in basic
 
 Run the build script. You should still see a blank screen, but if you open the console, you'll see "I am a ball" as expected.
 
-![Playdate dev console](assets/02_dev-console.png)
+<p align="center">
+  <img src="assets/02_dev-console.png" alt="Playdate dev console">
+</p>
 
 This isn't very interesting yet - let's actually draw the ball. We'll make our ball a circle, so we need to draw a circle onto the screen and make sure it gets connected up to our sprite correctly.
 
@@ -157,7 +161,9 @@ end
 
 If you re-run the build script, you should now see a ball drawn near the center of the screen. 🎉
 
-![ball in center of screen](assets/03_ball.png)
+<p align="center">
+  <img src="assets/03_ball.png" alt="ball in center of screen">
+</p>
 
 A couple things to note before we get too far:
 
@@ -265,7 +271,10 @@ end
 Rebuild the game. You should see the ball moving back and forth between the right and left edges of the screen.
 
 ## Making the ball bounce
-![ball bouncing horizontally](assets/04_ball-bounce-2-wall.gif)
+
+<p align="center">
+  <img src="assets/04_ball-bounce-2-wall.gif" alt="ball bouncing horizontally">
+</p>
 
 We made the ball move left and right by turning it around if the next move was going to take it off of the screen. But we can do a little better than that while also setting ourselves up for adding paddles.
 
@@ -425,7 +434,9 @@ end
 
 Rebuild the game again. Your ball should now be bouncing off of all 4 walls, easy peasy.
 
-![ball bouncing in all directions](assets/05_ball-bounce-4-wall.gif)
+<p align="center">
+  <img src="assets/05_ball-bounce-4-wall.gif" alt="ball bouncing in all directions">
+</p>
 
 ### Tidying up
 
@@ -510,7 +521,9 @@ There are many different kinds of waveforms we can use here - triangle, square, 
 
 If you want to play with your own sounds, the [Playdate Pulp](https://play.date/pulp/) editor has a "Sound" section that makes it easy to try things out. You'll need to create an account and login if you don't have one, then click on "Sound" and you should see an editor that looks like this:
 
-![Pulp game editor](assets/pulp-editor.png)
+<p align="center">
+  <img src="assets/pulp-editor.png" alt="Pulp game editor">
+</p>
 
 The grid in the middle controls the tone, volume, and duration, i.e. the `playNote("G4", 1, 1)` line from above. On the right of the editor, you will see the values from `setADSR` - attack, decay, sustain, and release - and the different types of waves (sine, square, sawtooth, triangle, noise). You can press spacebar to play the sound.
 
@@ -578,7 +591,9 @@ end
 
 Rebuild the game. You should be able to move your paddle up and down. [Pretty sweet sauce in there, eh Ace?](https://getyarn.io/yarn-clip/88044d50-e660-4605-b921-bf2a87b4d0b8)
 
-![moving paddle](assets/07_paddle-movement.gif)
+<p align="center">
+  <img src="assets/07_paddle-movement.gif" alt="moving paddle">
+</p>
 
 ## Keeping the paddle on-screen
 
@@ -602,7 +617,9 @@ end
 
 Rebuild the game and try moving your paddle around. You should see that it no longer moves off of the top and the bottom of the screen. This is because it is colliding with our invisible walls, the same way that the ball does.
   
-![moving paddle without leaving screen](assets/08_paddle-stays-in-bounds.gif)
+<p align="center">
+  <img src="assets/08_paddle-stays-in-bounds.gif" alt="moving paddle without leaving screen">
+</p>
 
 ## Adding crank controls
 
@@ -681,7 +698,9 @@ rightPaddle:add()
 
 Rebuild the game. You should now see two paddles - one on the left and one on the right. And all it took was 2 lines of code. Classes are pretty sweet.
 
-![two moving paddles](assets/09_two-paddles.gif)
+<p align="center">
+  <img src="assets/09_two-paddles.gif" alt="two moving paddles">
+</p>
 
 You'll notice that both paddles move in unison - when you press up, they both move up; when you press down, they both move down. There are a few ways you could make this more interesting, such as having one paddle controlled by AI or by the crank, and so on. Those are outside the scope of this tutorial, but I'm happy to do a follow-up if that is interesting to folks.
 
@@ -720,7 +739,9 @@ end
 
 Rebuild the game and you should see `0 : 0` at the top-center of the screen.
 
-![score display](assets/10_score.png)
+<p align="center">
+  <img src="assets/10_score.png" alt="score display">
+</p>
 
 ### A note on fonts
 
@@ -779,7 +800,9 @@ end
 
 Rebuild the game. You should see the scores tick up whenever the left and right walls are hit. More progress!
 
-![two moving paddles](assets/11_scoring-no-reset.gif)
+<p align="center">
+  <img src="assets/11_scoring-no-reset.gif" alt="two moving paddles">
+</p>
 
 ## Acknowledging the point
 
@@ -928,7 +951,9 @@ end
 
 Rebuild the game. You should see the new instructions, and pressing Ⓐ should restart the game successfully.
 
-![game over](assets/13_game-over.gif)
+<p align="center">
+  <img src="assets/13_game-over.gif" alt="game over">
+</p>
 
 Note that the `25` in `screenHeight / 2 - 25` really is a bit of a magic number. I wanted to draw it on the screen without it overlapping the ball once the ball is reset to the middle. There are other ways you could handle this, such as:
 
