@@ -6,10 +6,9 @@ In this repo you'll find a tutorial for building your first [Playdate](https://p
 2. [source/main.lua](source/main.lua) is the complete final code
 3. [build.sh](build.sh) is a small build script that will build the code in main.lua and launch the Playdate simulator. Note that it requires the [Playdate SDK](https://play.date/dev/).
 
-### Disclaimers
-The tutorial is aimed at folks with at least a bit of programming experience, and maybe even passing familiarity with object-oriented programming in a language like C#, Java, Python, Ruby, JavaScript, etc. If you are looking for something that involves a bit less programming, you might check out [this tutorial](https://devforum.play.date/t/pulp-pong-dev-tutorial/2315/1) for making Pong in the Playdate Pulp game editor.
+Note that this tutorial is aimed at folks with at least a bit of programming experience. Familiarity with object-oriented programming in a language like C#, Java, Python, Ruby, JavaScript, etc. is also helpful. If you are looking for something that involves a bit less programming, you might check out [this tutorial](https://devforum.play.date/t/pulp-pong-dev-tutorial/2315/1) for making Pong in the Playdate Pulp game editor.
 
-Though we're not new to game development, we are new to Lua and to developing for the Playdate. If you spot something that doesn't make sense or that we've gotten wrong, you can submit an issue here or [message us on Twitter](https://twitter.com/mostlybits).
+Though we're not new to game development, we _are_ new to Lua and to developing for the Playdate. If you spot something that doesn't make sense or that we've gotten wrong, you can submit an issue here or [message us on Twitter](https://twitter.com/mostlybits) and we'll get right on it. Your feedback is welcome and appreciated!
 
 ### About
 [Mostly Bits](https://mostlybits.co/) is Kyle Shipley and Tony Dewan. We made an iOS word game in 2021 called [Tiler More](http://tilermore.com/) that Kyle's mom loved and our friend Tyler hated. We're really excited to make games for [Playdate](https://play.date/) and have started experimenting! This tutorial is based on what we've learned so far while making game prototypes.
