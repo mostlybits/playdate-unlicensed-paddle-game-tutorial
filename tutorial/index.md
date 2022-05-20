@@ -9,7 +9,7 @@ The goal of this tutorial is to give you a quick intro to building your first Pl
 
 We'll also touch on some interesting aspects of Lua and adopt an object-oriented style of programming supported by the Playdate SDK.
 
-> Note: This tutorial is aimed at folks with at least a bit of programming experience. Familiarity with object-oriented programming in a language like C#, Java, Python, Ruby, JavaScript, etc. is also helpful. If you are looking for something that involves a bit less programming, you might check out [this tutorial](https://devforum.play.date/t/pulp-pong-dev-tutorial/2315/1) for making Pong in the Playdate Pulp game editor.
+> Note: This tutorial is aimed at folks with at least a bit of programming experience. Familiarity with object-oriented programming in a language like C#, Java, Python, Ruby, or JavaScript is also helpful. If you are looking for something that involves a bit less programming, you might check out [this tutorial](https://devforum.play.date/t/pulp-pong-dev-tutorial/2315/1) for making Pong in the Playdate Pulp game editor.
 
 
 ## Setup
