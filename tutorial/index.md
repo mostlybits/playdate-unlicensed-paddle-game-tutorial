@@ -66,7 +66,9 @@ end
 
 If you run the build script now, you'll get a blank screen in the simulator.
 
-<!-- SCREENSHOT HERE -->
+<p align="center">
+  <img src="assets/01_blank-simulator.png" alt="blank Playdate simulator" width="600">
+</p>
 
 Let's make things a bit more interesting with our first sprite! We'll start with the ball.
 
@@ -108,7 +110,9 @@ Note the `import`s in the first few lines. These 3 imports will be used in basic
 
 Run the build script. You should still see a blank screen, but if you open the console, you'll see "I am a ball" as expected.
 
-<!-- SCREENSHOT HERE -->
+<p align="center">
+  <img src="assets/02_dev-console.png" alt="Playdate dev console">
+</p>
 
 This isn't very interesting yet - let's actually draw the ball. We'll make our ball a circle, so we need to draw a circle onto the screen and make sure it gets connected up to our sprite correctly.
 
@@ -155,6 +159,10 @@ end
 ```
 
 If you re-run the build script, you should now see a ball drawn near the center of the screen. 🎉
+
+<p align="center">
+  <img src="assets/03_ball.png" alt="ball in center of screen">
+</p>
 
 A couple things to note before we get too far:
 
@@ -262,6 +270,10 @@ end
 Rebuild the game. You should see the ball moving back and forth between the right and left edges of the screen.
 
 ## Making the ball bounce
+
+<p align="center">
+  <img src="assets/04_ball-bounce-2-wall.gif" alt="ball bouncing horizontally">
+</p>
 
 We made the ball move left and right by turning it around if the next move was going to take it off of the screen. But we can do a little better than that while also setting ourselves up for adding paddles.
 
@@ -421,6 +433,10 @@ end
 
 Rebuild the game again. Your ball should now be bouncing off of all 4 walls, easy peasy.
 
+<p align="center">
+  <img src="assets/05_ball-bounce-4-wall.gif" alt="ball bouncing in all directions">
+</p>
+
 ### Tidying up
 
 Before we move on - there are a lot of "magic numbers" in our code at this point. Our right wall starts at 400 pixels. Vertical walls are 240 pixels tall. And so on.
@@ -461,7 +477,9 @@ Playdate allows you to play back pre-recorded sounds or make simple generated so
 
 Here's an image from Wikipedia to help visualize:
 
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/ADSR_parameter.svg/2560px-ADSR_parameter.svg.png)
+<p align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/ADSR_parameter.svg/2560px-ADSR_parameter.svg.png" width="600" alt="graph of ADSR">
+</p>
 
 We're not going to go deep on this (partially because I'm still learning these things too), but hopefully that's enough to follow along for the rest of the section. At the end of the section, I'll explain how you can use the Playdate Pulp editor to experiment with your own sounds.
 
@@ -500,11 +518,15 @@ end
 
 Rebuild your game and try out the sounds!
 
+https://user-images.githubusercontent.com/115918/169334836-e7a0af9c-eba3-40f3-89cc-cee6dfcf774b.mp4
+
 There are many different kinds of waveforms we can use here - triangle, square, sawtooth, sine, and more. Each one has a different sound, so feel free to play with the waveforms, ADSR, and notes until you find a sound you like. The sound I picked has a softer, spacier feel, but a sawtooth wave with a shorter attack would sound much sharper.
 
 If you want to play with your own sounds, the [Playdate Pulp](https://play.date/pulp/) editor has a "Sound" section that makes it easy to try things out. You'll need to create an account and login if you don't have one, then click on "Sound" and you should see an editor that looks like this:
 
-<!-- SCREENSHOT HERE -->
+<p align="center">
+  <img src="assets/pulp-editor.png" alt="Pulp game editor">
+</p>
 
 The grid in the middle controls the tone, volume, and duration, i.e. the `playNote("G4", 1, 1)` line from above. On the right of the editor, you will see the values from `setADSR` - attack, decay, sustain, and release - and the different types of waves (sine, square, sawtooth, triangle, noise). You can press spacebar to play the sound.
 
@@ -572,6 +594,10 @@ end
 
 Rebuild the game. You should be able to move your paddle up and down. [Pretty sweet sauce in there, eh Ace?](https://getyarn.io/yarn-clip/88044d50-e660-4605-b921-bf2a87b4d0b8)
 
+<p align="center">
+  <img src="assets/07_paddle-movement.gif" alt="moving paddle">
+</p>
+
 ## Keeping the paddle on-screen
 
 Our paddle moves, but we have a problem - it can move right off of the screen, with no promise that it will ever return. Let's fix that.
@@ -594,6 +620,10 @@ end
 
 Rebuild the game and try moving your paddle around. You should see that it no longer moves off of the top and the bottom of the screen. This is because it is colliding with our invisible walls, the same way that the ball does.
   
+<p align="center">
+  <img src="assets/08_paddle-stays-in-bounds.gif" alt="moving paddle without leaving screen">
+</p>
+
 ## Adding crank controls
 
 Panic went to a lot of trouble to include a crank in the Playdate, and here we are, completely ignoring it, like the thousands of hours of engineering effort mean nothing to us.
@@ -671,6 +701,10 @@ rightPaddle:add()
 
 Rebuild the game. You should now see two paddles - one on the left and one on the right. And all it took was 2 lines of code. Classes are pretty sweet.
 
+<p align="center">
+  <img src="assets/09_two-paddles.gif" alt="two moving paddles">
+</p>
+
 You'll notice that both paddles move in unison - when you press up, they both move up; when you press down, they both move down. There are a few ways you could make this more interesting, such as having one paddle controlled by AI or by the crank, and so on. Those are outside the scope of this tutorial, but I'm happy to do a follow-up if that is interesting to folks.
 
 ## Displaying a score
@@ -707,6 +741,10 @@ end
 ```
 
 Rebuild the game and you should see `0 : 0` at the top-center of the screen.
+
+<p align="center">
+  <img src="assets/10_score.png" alt="score display">
+</p>
 
 ### A note on fonts
 
@@ -764,6 +802,10 @@ end
 ```
 
 Rebuild the game. You should see the scores tick up whenever the left and right walls are hit. More progress!
+
+<p align="center">
+  <img src="assets/11_scoring-no-reset.gif" alt="two moving paddles">
+</p>
 
 ## Acknowledging the point
 
@@ -840,6 +882,8 @@ end
 
 Rebuild your game and try it out. You should now see the ball reset and hear a different sound whenever a point is scored.
 
+https://user-images.githubusercontent.com/115918/169335522-fe7edf01-03a9-4537-930c-bb7b80038790.mp4
+
 There's more you could do here if you wanted - playing a "success" sound when the left paddle scores and a "fail" sound when the right paddle scores, reversing the ball direction on each point, and so on. Feel free to try those out!
 
 ## Winning the game
@@ -910,6 +954,10 @@ end
 
 Rebuild the game. You should see the new instructions, and pressing Ⓐ should restart the game successfully.
 
+<p align="center">
+  <img src="assets/13_game-over.gif" alt="game over">
+</p>
+
 Note that the `25` in `screenHeight / 2 - 25` really is a bit of a magic number. I wanted to draw it on the screen without it overlapping the ball once the ball is reset to the middle. There are other ways you could handle this, such as:
 
 - Not moving the ball back to the center on the final point
@@ -919,6 +967,8 @@ Note that the `25` in `screenHeight / 2 - 25` really is a bit of a magic number.
 These are all viable choices depending on the game over aesthetic you are going for, but I wanted to keep it simple for now.
 
 ## Wrapping Up / Next Steps
+
+https://user-images.githubusercontent.com/115918/169336208-9d37e316-9ad9-4305-8350-02ebcbc2d3c8.mp4
 
 This tutorial was a quick, whirlwind intro to making your first Playdate game. We covered a lot of ground - controls, movement, drawing, text, sound effects, collisions, game logic, and more. But there's still plenty more to learn when it comes to making more complex Playdate games.
 
