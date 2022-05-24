@@ -6,7 +6,7 @@ In this repo you'll find a tutorial for building your first [Playdate](https://p
 2. [source/main.lua](source/main.lua) is the complete final code
 3. [build.sh](build.sh) is a small build script that will build the code in main.lua and launch the Playdate simulator. Note that it requires the [Playdate SDK](https://play.date/dev/).
 
-Here's a quick video of the final product:
+Here's a quick video of the final product (unmute for sound):
 
 https://user-images.githubusercontent.com/115918/169336208-9d37e316-9ad9-4305-8350-02ebcbc2d3c8.mp4
 
