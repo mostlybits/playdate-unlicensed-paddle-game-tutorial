@@ -13,5 +13,7 @@ Though we're not new to game development, we _are_ new to Lua and to developing 
 ### About
 [Mostly Bits](https://mostlybits.co/) is Kyle Shipley and Tony Dewan. We made an iOS word game in 2021 called [Tiler More](http://tilermore.com/) that Kyle's mom loved and our friend Tyler hated. We're really excited to make games for [Playdate](https://play.date/) and have started experimenting! This tutorial is based on what we've learned so far while making game prototypes.
 
+If you want to follow along with our nonsense, you can subscribe to our short-and-sweet, once-a-week [newsletter](http://newsletter.mostlybits.co).
+
 ### License
 The content of this tutorial is licensed under [CC BY-NC-SA 4.0](http://creativecommons.org/licenses/by-nc-sa/4.0/), and the source code of Unlicensed Paddle Game is licensed under the MIT license.
