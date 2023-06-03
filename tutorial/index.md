@@ -962,7 +962,7 @@ Note that the `25` in `screenHeight / 2 - 25` really is a bit of a magic number.
 
 - Not moving the ball back to the center on the final point
 - Calling `ball:remove()` when the game ends and adding it back in with `ball:add()` on a restart
-- Calling `playdate.clear()` at the beginning of the `if` branch to clear the screen of all sprites before drawing the text
+- Calling `playdate.graphics.clear()` at the beginning of the `if` branch to clear the screen of all sprites before drawing the text
 
 These are all viable choices depending on the game over aesthetic you are going for, but I wanted to keep it simple for now.
 
